@@ -1,0 +1,66 @@
+openapi: 3.0.2
+info:
+  title: Beer API
+  description: Api to retrieve Beer's information
+  version: v1
+servers:
+  - url: http://localhost:8080/beer/v1
+    description: Localhost description
+paths:
+  /beer:
+    get:
+      summary: Retrieve all beer information
+      responses:
+        200:
+          description: List of Beers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BeerList"
+    post:
+      summary: Insert a beer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Beer"
+      responses:
+        201:
+          description: Beer was successfully inserted
+        500:
+          description: Error inserting beer
+    put:
+      summary: Update a beer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Beer"
+      responses:
+        200:
+          description: Beer was successfully updated
+        500:
+          description: Error updating beer
+components:
+  schemas:
+    Beer:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Peroni
+        typology:
+          type: string
+          enum:
+            - ALE
+            - PALE_ALE
+            - IPA
+            - WHEAT
+            - LAGER
+        id:
+          type: number
+          readOnly: true
+    BeerList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Beer'
